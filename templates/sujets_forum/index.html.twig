@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SujetsForum index{% endblock %}
+
+{% block body %}
+    <h1>SujetsForum index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdSujetForum</th>
+                <th>DateCreations</th>
+                <th>Sujet</th>
+                <th>Theme</th>
+                <th>DescriptifSujet</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sujets_forum in sujets_forums %}
+            <tr>
+                <td>{{ sujets_forum.idSujetForum }}</td>
+                <td>{{ sujets_forum.dateCreations ? sujets_forum.dateCreations|date('Y-m-d') : '' }}</td>
+                <td>{{ sujets_forum.sujet }}</td>
+                <td>{{ sujets_forum.theme }}</td>
+                <td>{{ sujets_forum.descriptifSujet }}</td>
+                <td>
+                    <a href="{{ path('app_sujets_forum_show', {'idSujetForum': sujets_forum.idSujetForum}) }}">show</a>
+                    <a href="{{ path('app_sujets_forum_edit', {'idSujetForum': sujets_forum.idSujetForum}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sujets_forum_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum{% endblock %}
+
+{% block body %}
+    <h1>Forum</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdForum</th>
+                <td>{{ forum.idForum }}</td>
+            </tr>
+            <tr>
+                <th>DateCreationForum</th>
+                <td>{{ forum.dateCreationForum }}</td>
+            </tr>
+            <tr>
+                <th>IdSujetForum</th>
+                <td>{{ forum.idSujetForum }}</td>
+            </tr>
+            <tr>
+                <th>IdUserAdmin</th>
+                <td>{{ forum.idUserAdmin }}</td>
+            </tr>
+            <tr>
+                <th>ListeParticipants</th>
+                <td>{{ forum.listeParticipants }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_forum_index') }}">back to list</a>
+
+    <a href="{{ path('app_forum_edit', {'idForum': forum.idForum}) }}">edit</a>
+
+    {{ include('forum/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SujetsForum{% endblock %}
+
+{% block body %}
+    <h1>SujetsForum</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>IdSujetForum</th>
+                <td>{{ sujets_forum.idSujetForum }}</td>
+            </tr>
+            <tr>
+                <th>DateCreations</th>
+                <td>{{ sujets_forum.dateCreations ? sujets_forum.dateCreations|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Sujet</th>
+                <td>{{ sujets_forum.sujet }}</td>
+            </tr>
+            <tr>
+                <th>Theme</th>
+                <td>{{ sujets_forum.theme }}</td>
+            </tr>
+            <tr>
+                <th>DescriptifSujet</th>
+                <td>{{ sujets_forum.descriptifSujet }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_sujets_forum_index') }}">back to list</a>
+
+    <a href="{{ path('app_sujets_forum_edit', {'idSujetForum': sujets_forum.idSujetForum}) }}">edit</a>
+
+    {{ include('sujets_forum/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,17 +1,320 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+    <title>{% block title %}IRON FIT{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    {% block css %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    {% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('backoffice/assets/css/main.css') }}">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@700&display=swap" rel="stylesheet">
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            text-align: center;
+        }
+
+        #dark, #red {
+            background-color: #da2424;
+            background-image: linear-gradient(#20262b, #191d22);
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+            transition: background 0.3s ease;
+        }
+
+        #dark:hover, #red:hover {
+            background-image: radial-gradient(center 50% 0%, rgba(255, 255, 255, 0), rgba(114, 131, 148, 0.9));
+        }
+
+        #promo-wrapper {
+            background-image: url('/images/1.png');
+            background-size: cover;
+            background-position: center;
+            padding: 50px 0;
+            color: white;
+            text-align: center;
+        }
+
+        #promo h2 {
+            margin: 0;
+            font-size: 2em;
+            padding-bottom: 20px;
+        }
+
+        #promo a {
+            display: inline-block;
+            background-color: #da2424;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 1.2em;
+        }
+
+        #nav {
+            position: relative;
+            height: 60px;
+            padding: 0;
+            background-color: #20262b;
+            text-align: center;
+        }
+
+        #logo2 {
+            width: 151px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: #20262b;
+        }
+
+        #nav li {
+            margin: 0 15px;
+        }
+
+        #nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            line-height: 60px;
+            display: block;
+        }
+
+        #nav ul ul {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background-color: #20262b;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #nav li:hover > ul {
+            display: block;
+        }
+
+        #footer-wrapper {
+            background-color: #090a0c;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        #footer-wrapper .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #footer-wrapper .item {
+            margin: 10px;
+        }
+
+        #footer-wrapper .social a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5em;
+        }
+
+        .feature {
+            margin-bottom: 30px;
+        }
+
+        .feature img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .wrapper {
+            padding: 30px 0;
+        }
+    </style>
+</head>
+<body class="homepage is-preload">
+<div id="page-wrapper">
+    {% block header %}
+        <div id="header-wrapper">
+            <nav id="nav">
+                <img id="logo2" src="{{ asset('backoffice/images/3.png') }}" alt="logoironfit" />
+                <ul>
+                    <li><a href="#">Nos Services</a>
+                        <ul>
+                            <li><a href="#">Code Promo</a></li>
+                            <li><a href="#">Planning</a></li>
+                            <li><a href="#">Salle de sport</a></li>
+                            <li><a href="#">Abonnement</a></li>
+                            <li><a href="#">REGIME</a></li>
+                            <li><a href="#">Post</a></li>
+                            <li><a href="#">Notre boutique</a></li>
+                        </ul>
+                    </li>
+                    {% if not is_granted('ROLE_Client') and not is_granted('ROLE_Medecin') and not is_granted('ROLE_Coach') %}
+                        <li class="booking"></li>
+                    {% endif %}
+                    {% if app.user %}
+                        <li><a href="#"><i class="typcn typcn-power-outline"></i> Profile</a></li>
+                        <li><a href="#"><i class="typcn typcn-power-outline"></i> Déconnecter</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    {% endblock %}
+
+    {% block body %}
+    <!-- Hero -->
+    <section id="hero" class="container">
+        <header>
+            <h2>Your Iron Future starts<br />with iron Fit!</h2>
+        </header>
+        <p>Découvrez une expérience complète pour votre bien-être avec notre plateforme offrant<br />
+            des services de coaching personnalisé, une boutique en ligne pour des articles de sport de qualité,
+            une gestion diététique supervisée par des professionnels<br /> de la santé, et un espace dédié à l'échange d'idées sur notre forum interactif.
+            Bienvenue dans un univers où votre santé et votre vitalité sont au cœur de nos préoccupations.
+        </p>
+        <ul class="actions">
+            <li><a id="red" href="#">Commencez dès Maintenant !</a></li>
+        </ul>
+    </section>
+
+    <!-- Features 1 -->
+    <div class="wrapper">
+        <div class="container">
+            <div class="row">
+                <section class="col-6 col-12-narrower feature">
+                    <div class="image-wrapper first">
+                        <!-- Image if needed -->
+                    </div>
+                    <header>
+                        <h2>Nos Salles de Sport</h2>
+                    </header>
+                    <p>Nos salles de sport offrent une gamme complète d'équipements de cardio, de musculation et de cours collectifs pour répondre à tous les besoins. Vous bénéficierez d'un environnement motivant et inspirant qui favorise la progression et le dépassement de soi.</p>
+                </section>
+                <section class="col-6 col-12-narrower feature">
+                    <div class="image-wrapper">
+                        <!-- Image if needed -->
+                    </div>
+                    <header>
+                        <h2>Nos Plannings</h2>
+                    </header>
+                    <p>Relevez chaque défi avec enthousiasme et faites du sport une partie intégrante de votre quotidien. Rejoignez-nous dans cette aventure vers la forme physique et le bien-être, où chaque séance de sport vous rapproche de vos objectifs.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promo -->
+    <div id="promo-wrapper">
+        <section id="promo">
+            <h2>Explorez notre forum dès maintenant et découvrez une communauté vibrante prête à vous inspirer et à vous accompagner dans votre parcours vers la réussite !</h2>
+            <a href="#" id="red">Explorez notre forum</a>
+        </section>
+    </div>
+
+    <!-- Features 2 -->
+    <div class="wrapper">
+        <section class="container">
+            <header class="major">
+                <h2>Vous Cherchez des produits, un abonnement pour salle de sport ?</h2>
+                <p>Rejoignez notre famille fitness et commencez votre parcours vers une vie plus saine dès aujourd'hui !</p>
+            </header>
+            <div class="row features">
+                <section class="col-4 col-12-narrower feature">
+                    <div class="image-wrapper first">
+                        <a href="#" class="image featured"><img src="{{ asset('backoffice/images/12.png') }}" alt="" style="width: 400px; height: 300px;"/></a>
+                    </div>
+                    <p>Optez pour l'excellence en choisissant notre abonnement exclusif qui ouvre les portes d'un monde de bien-être et de remise en forme.</p>
+                </section>
+                <section class="col-4 col-12-narrower feature">
+                    <div class="image-wrapper">
+                        <a href="#" class="image featured"><img src="{{ asset('backoffice/images/2.jpg') }}" alt="" style="width: 400px; height: 300px;"/></a>
+                    </div>
+                    <p>Explorez notre gamme complète de produits de qualité conçus pour soutenir votre bien-être et enrichir votre mode de vie actif. Avec une sélection soigneusement élaborée de protéines, de vitamines et de suppléments alimentaires.</p>
+                </section>
+                <section class="col-4 col-12-narrower feature">
+                    <div class="image-wrapper">
+                        <a href="#" class="image featured"><img src="{{ asset('backoffice/images/4.jpg') }}" alt="" style="width: 400px; height: 300px;"/></a>
+                    </div>
+                    <p>Découvrez notre équipe de professionnels de la santé dévoués à votre bien-être. Composée de médecins, kinésithérapeutes, nutritionnistes, et experts en santé, notre équipe est là pour vous accompagner dans votre parcours vers une vie plus saine.</p>
+                </section>
+            </div>
+            <ul class="actions major">
+            </ul>
+        </section>
+    </div>
+    {% endblock %}
+
+    <!-- Footer -->
+    {% block footer %}
+        <div id="footer-wrapper">
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 item">
+                            <h3>Nos Services</h3>
+                            <ul>
+                                <!-- Service links if needed -->
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-md-3 item">
+                            <ul>
+                                <li><a href="#">Produits</a></li>
+                                <li><a href="#">Forum</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 item text">
+                            <h3>IRON FIT</h3>
+                            <p>Découvrez notre plateforme tout-en-un, fusionnant coaching personnalisé, boutique sportive, conseils nutritionnels et un vibrant forum. Libérez le meilleur de votre bien-être, tout au même endroit.</p>
+                        </div>
+                        <div class="col item social">
+                            <a href="#"><i class="icon ion-social-facebook"></i></a>
+                            <a href="#"><i class="icon ion-social-twitter"></i></a>
+                            <a href="#"><i class="icon ion-social-snapchat"></i></a>
+                            <a href="#"><i class="icon ion-social-instagram"></i></a>
+                        </div>
+                    </div>
+                    <p class="copyright">IRON FIT © 2023</p>
+                </div>
+            </footer>
+        </div>
+    {% endblock %}
+
+    <!-- Scripts -->
+    {% block js %}
+        <script src="{{ asset('backoffice/assets/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('backoffice/assets/js/jquery.dropotron.min.js') }}"></script>
+        <script src="{{ asset('backoffice/assets/js/browser.min.js') }}"></script>
+        <script src="{{ asset('backoffice/assets/js/breakpoints.min.js') }}"></script>
+        <script src="{{ asset('backoffice/assets/js/util.js') }}"></script>
+        <script src="{{ asset('backoffice/assets/js/main.js') }}"></script>
+    {% endblock %}
+</div>
+</body>
 </html>
