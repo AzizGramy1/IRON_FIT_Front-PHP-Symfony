@@ -5,13 +5,43 @@
 {% block body %}
     <h1>Forum index</h1>
 
+    <!-- Button for Statistics -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end mb-3">
+                <button class="btn btn-outline-secondary">Statistics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Form -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="get" action="{{ path('app_forum_index') }}" class="mb-3 text-center">
+                <input type="text" name="search" placeholder="Search by ID or Date" value="{{ app.request.query.get('search') }}" class="form-control" style="width: 100%;" />
+                <button type="submit" class="btn btn-black mt-2">Search</button>
+            </form>
+        </div>
+    </div>
+
+    
+</div>
+
+
+
+
+
+
+
+
     <table class="table">
         <thead>
             <tr>
-                <th>IdForum</th>
-                <th>DateCreationForum</th>
-                <th>IdSujetForum</th>
-                <th>IdUserAdmin</th>
+                
+                <th>Date de Creation</th>
+                <th>Sujet du Forum</th>
+                <th>Admin</th>
                 <th>ListeParticipants</th>
                 <th>actions</th>
             </tr>
@@ -25,17 +55,19 @@
                 <td>{{ forum.idUserAdmin }}</td>
                 <td>{{ forum.listeParticipants }}</td>
                 <td>
-                    <a href="{{ path('app_forum_show', {'idForum': forum.idForum}) }}">show</a>
-                    <a href="{{ path('app_forum_edit', {'idForum': forum.idForum}) }}">edit</a>
+                    <a href="{{ path('app_forum_show', {'id': forum.idForum}) }}">View Forum</a>
+
+                    <a href="{{ path('app_forum_edit', {'id': forum.idForum}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">No Forum available now !</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_forum_new') }}">Create new</a>
+    <a href="{{ path('app_forum_new') }}" class="btn btn-outline-primary">Create new</a>
+
 {% endblock %}

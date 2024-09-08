@@ -41,4 +41,18 @@ class ForumRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    // Method to search forums by ID or Date
+    public function searchForums(string $search): array
+    {
+        $qb = $this->createQueryBuilder('f');
+
+        if ($search) {
+            $qb->where('f.idForum LIKE :search OR f.dateCreationForum LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

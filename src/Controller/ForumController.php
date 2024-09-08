@@ -45,7 +45,7 @@ final class ForumController extends AbstractController
         ]);
     }
 
-    #[Route('/{idForum}', name: 'app_forum_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_forum_show', methods: ['GET'])]
     public function show(Forum $forum): Response
     {
         return $this->render('forum/show.html.twig', [
@@ -53,7 +53,7 @@ final class ForumController extends AbstractController
         ]);
     }
 
-    #[Route('/{idForum}/edit', name: 'app_forum_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_forum_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ForumType::class, $forum);
@@ -71,7 +71,7 @@ final class ForumController extends AbstractController
         ]);
     }
 
-    #[Route('/{idForum}', name: 'app_forum_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_forum_delete', methods: ['POST'])]
     public function delete(Request $request, Forum $forum, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$forum->getIdForum(), $request->getPayload()->getString('_token'))) {

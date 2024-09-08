@@ -33,12 +33,12 @@ class Forum
 
     // Getters and Setters
 
-    public function getIdForum(): ?string
+    public function getIdForum(): ?int
     {
         return $this->idForum;
     }
 
-    public function setIdForum(?string $idForum): self
+    public function setIdForum(?int $idForum): self
     {
         $this->idForum = $idForum;
         return $this;
@@ -86,5 +86,16 @@ class Forum
     {
         $this->listeParticipants = $listeParticipants;
         return $this;
+    }
+
+
+    // __toString() method
+    public function __toString(): string
+    {
+        return sprintf(
+            'Forum ID: %d, Created on: %s',
+            $this->getIdForum(),
+            $this->getDateCreationForum() ?? 'N/A'
+        );
     }
 }
